@@ -20,29 +20,42 @@ export function App() {
     };
 
     return html`
-        <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#/">Preact+HTM Template</a>
-                    <button 
-                        class="navbar-toggler" 
-                        type="button" 
+        <div class="min-h-screen">
+            <header class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-lg">
+                <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+                    <a class="font-bold text-2xl tracking-tight hover:text-indigo-100 transition-colors" href="#/">
+                        <span class="inline-block transform hover:scale-105 transition-transform">✨ Preact+HTM</span>
+                    </a>
+
+                    <button
+                        class="md:hidden text-white focus:outline-none hover:bg-white/20 rounded-lg p-2 transition-colors"
+                        type="button"
                         onClick=${toggleMenu}
                         aria-expanded=${menuOpen}
                         aria-label="Toggle navigation"
                     >
-                        <span class="navbar-toggler-icon"></span>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
-                    <div class="collapse navbar-collapse ${menuOpen ? 'show' : ''}">
-                        <div class="navbar-nav">
-                            <a class="nav-link" href="#/" onClick=${toggleMenu}>Home</a>
-                            <a class="nav-link" href="#/clock" onClick=${toggleMenu}>Clock</a>
-                            <a class="nav-link" href="#/counter" onClick=${toggleMenu}>Counter</a>
-                        </div>
+
+                    <nav class="hidden md:flex space-x-2">
+                        <a class="px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-200 font-medium" href="#/" onClick=${toggleMenu}>Home</a>
+                        <a class="px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-200 font-medium" href="#/clock" onClick=${toggleMenu}>Clock</a>
+                        <a class="px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-200 font-medium" href="#/counter" onClick=${toggleMenu}>Counter</a>
+                    </nav>
+                </div>
+
+                <div class="md:hidden ${menuOpen ? 'block' : 'hidden'} px-4 pb-4 bg-black/10">
+                    <div class="flex flex-col space-y-2">
+                        <a class="block text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors font-medium" href="#/" onClick=${toggleMenu}>Home</a>
+                        <a class="block text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors font-medium" href="#/clock" onClick=${toggleMenu}>Clock</a>
+                        <a class="block text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors font-medium" href="#/counter" onClick=${toggleMenu}>Counter</a>
                     </div>
                 </div>
-            </nav>
-            <${Router} routes=${routes} />
+            </header>
+
+            <main class="pb-12">
+                <${Router} routes=${routes} />
+            </main>
         </div>
     `;
 }

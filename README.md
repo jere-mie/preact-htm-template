@@ -10,7 +10,7 @@ A minimal, **zero-build** single-page application (SPA) template using Preact an
 - 📦 **Fully Vendored** - All dependencies included as static files
 - 🎯 **Modern Stack** - Preact + HTM for reactive components
 - 🧭 **Client-Side Routing** - Hash-based routing with custom router
-- 🎨 **Bootstrap 5** - Pre-configured responsive styling
+-- 🎨 **Twind (Tailwind-compatible)** - Utility-first styling provided at runtime via the vendored Twind runtime
 - 🔧 **Zero Configuration** - No package.json, no build tools, no setup
 - 🤖 **AI-Ready** - Enhanced for AI-assisted development with comprehensive [Copilot instructions](.github/copilot-instructions.md)
 
@@ -68,8 +68,8 @@ Then open your browser to `http://localhost:8000`
 │   │   └── NotFound.js            # 404 page
 │   ├── vendor/
 │   │   ├── standalone-preact.esm.js  # Preact + Hooks + HTM bundle
-│   │   └── bootstrap.min.css         # Bootstrap 5 CSS
-│   └── style.css                  # Custom styles
+│   │   └── twind.cdn.js               # Twind runtime (Tailwind-compatible utilities)
+│   └── style.css                  # Custom styles (optional overrides)
 └── LICENSE                         # MIT License
 ```
 
@@ -87,10 +87,10 @@ export function MyComponent({ name }) {
     const [count, setCount] = useState(0);
     
     return html`
-        <div class="container mt-5">
-            <h2>Hello, ${name}!</h2>
-            <p>Count: ${count}</p>
-            <button onClick=${() => setCount(count + 1)} class="btn btn-primary">
+        <div class="max-w-3xl mx-auto mt-5 px-4">
+            <h2 class="text-xl font-semibold">Hello, ${name}!</h2>
+            <p class="mt-2">Count: ${count}</p>
+            <button onClick=${() => setCount(count + 1)} class="mt-3 bg-blue-600 text-white px-3 py-2 rounded">
                 Increment
             </button>
         </div>
@@ -152,7 +152,8 @@ html`
 - **[Preact](https://preactjs.com/)** - Fast 3kB React alternative
 - **[HTM](https://github.com/developit/htm)** - JSX-like syntax using template literals
 - **[Preact Hooks](https://preactjs.com/guide/v10/hooks/)** - useState, useEffect, etc.
-- **[Bootstrap 5](https://getbootstrap.com/docs/5.3/)** - CSS framework
+- **[Preact Signals](https://preactjs.com/guide/v10/signals/)** - lightweight reactive primitives (signal, useSignal) available in the vendored bundle
+- **[Twind](https://twind.style/)** - Tailwind-compatible runtime used in this template
 - **[Standalone Preact](https://standalonepreact.satge.net/)** - Tool used to generate the vendored bundle
 
 ## 💻 VS Code Setup (Recommended)
@@ -222,9 +223,9 @@ This template is licensed under the [MIT License](LICENSE).
 
 - **Preact** - MIT License ([preactjs/preact](https://github.com/preactjs/preact))
 - **HTM** - Apache License 2.0 ([developit/htm](https://github.com/developit/htm))
-- **Bootstrap** - MIT License ([twbs/bootstrap](https://github.com/twbs/bootstrap))
+- **Twind** - MIT License (Twind runtime vendored in `static/vendor/twind.cdn.js`)
 
-The vendored `standalone-preact.esm.js` bundle includes Preact, Preact Hooks, and HTM.
+The vendored `standalone-preact.esm.js` bundle includes Preact, Preact Hooks, and HTM. The Twind runtime is vendored separately and applies Tailwind-compatible utility classes at runtime.
 
 ## 💡 Philosophy
 

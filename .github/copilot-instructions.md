@@ -63,18 +63,18 @@ Then open `http://localhost:8000` in a browser.
 
 ### File Structure
 ```
-index.html              # Entry point, renders App into #app
+index.html                # Entry point, renders App into #app
 static/
-  components/           # All Preact components
-  vendor/               # Vendored dependencies (don't modify)
-  style.css            # Custom styles (Bootstrap loaded separately)
+    components/           # All Preact components
+    vendor/               # Vendored dependencies (don't modify)
+    style.css             # Custom styles (Twind / Tailwind utilities are used at runtime)
 ```
 
 ## Styling
 
-- Bootstrap 5 CSS is vendored and loaded globally
-- Use Bootstrap utility classes for styling
-- Custom styles go in `static/style.css`
+- Twind (a small runtime implementing Tailwind-compatible utility classes) is vendored and loaded from `static/vendor/twind.cdn.js`. Use the Twind runtime to apply Tailwind utility classes at runtime.
+- Use Tailwind utility classes (for example, `px-4`, `text-center`, `bg-blue-600`) in your components' `class` attributes. Do not add a separate Tailwind build step — rely on the vendored Twind runtime.
+- Custom CSS can live in `static/style.css` for project-wide overrides or utilities that are not convenient as inline utility classes.
 - Class names use `class=`, not `className` (HTM, not JSX)
 
 ## State Management
@@ -82,6 +82,34 @@ static/
 - Use Preact hooks (`useState`, `useEffect`) for component state
 - No global state management library
 - For shared state, lift state up to parent components and pass via props
+
+### Signals API (optional)
+
+- This template's vendored Preact bundle also exposes the Preact Signals API which you may use in addition to hooks for reactive state. Signals are useful for fine-grained reactivity and for simple shared state without a full store.
+- Example imports (from the same vendored bundle):
+```javascript
+import { signal, useSignal } from '../vendor/standalone-preact.esm.js';
+```
+- Example — component-local signal:
+```javascript
+export function MyCounter() {
+        const count = useSignal ? useSignal(0) : signal(0);
+        return html`<div><button onClick=${() => count.value++}>${count.value}</button></div>`;
+}
+```
+- Example — shared signal across modules:
+```javascript
+// store.js
+import { signal } from '../vendor/standalone-preact.esm.js';
+export const sharedCount = signal(0);
+
+// Any component
+import { sharedCount } from './store.js';
+// Use sharedCount.value in templates and update it directly
+```
+- Notes:
+    - Signals expose a `.value` property for reads/writes.
+    - Use signals when you want lightweight, fine-grained reactivity or simple shared state. Hooks (`useState`, `useEffect`) remain the default recommendation for component-local state.
 
 ## Common Patterns
 
